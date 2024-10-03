@@ -20,6 +20,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy your training script into the container
 COPY test_train.py .
 COPY test.py .
+COPY test_.py .
+COPY testDB.py .
 # Command to keep the container running
 # CMD ["tail", "-f", "/dev/null"]
 CMD ["python", "test.py"]

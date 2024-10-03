@@ -1,0 +1,43 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: openstack-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  cinder:
+    volumeID: 0d0f5ab0-7432-409f-9246-c07e61930d28
+  persistentVolumeReclaimPolicy: Retain
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openstack-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: hello-world-container
+    image: nginx
+    volumeMounts:
+    - mountPath: "/mnt/data"
+      name: my-volume1
+  volumes:
+  - name: my-volume1
+    persistentVolumeClaim:
+      claimName: openstack-pvc
+

@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: manila-storage  # This name should match what you reference in your PVC and PV
+provisioner: cern-magnum-openstack-manila-csi-controllerplugin-0 #manila.csi.openstack.org  # The CSI driver that will manage storage
+parameters:
+  # Additional parameters can be specified here based on your Manila setup
+  shareType: default  # Specify the Manila share type if needed
+reclaimPolicy: Retain  # Or "Delete" based on how you want to handle PVs after PVC deletion
+allowVolumeExpansion: true  # Allow PVC to expand if necessary
+

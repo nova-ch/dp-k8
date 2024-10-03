@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-volume-pvc
+spec:
+  accessModes:
+    - ReadWriteMany  # or ReadWriteOnce as per your use case
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: manila-storage  # Must match the StorageClass created
+

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-app
+spec:
+  replicas: 1  # Number of pod replicas
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret  # Specify the name of the secret created for pulling the image
+      initContainers:
+      - name: init-my-volume
+        image: busybox  # A lightweight image to perform initialization
+        command: ["sh", "-c", "echo Initializing volume... && echo 'Data initialized at $(date)' > /data/init.txt"]
+        volumeMounts:
+        - name: my-volume  # Name of the volume to mount
+          mountPath: /data  # Path inside the init container
+      containers:
+      - name: hello-world-container
+        image: ghcr.io/nova-ch/dp:v0.0  # Your Docker image
+        command: ["/bin/sh", "-c", "echo Hello, World! && tail -f /dev/null"]  # Keep the container running
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: my-volume
+          mountPath: /data  # Path inside the main application container
+      volumes:
+      - name: my-volume  # Name of the volume
+        persistentVolumeClaim:
+          claimName: my-volume-pvc  # The name of your PVC
+

@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-script-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: hello-world-container #my-script-container
+        image: ghcr.io/nova-ch/dp:v0.0  # Replace with your actual image
+        command: ["python"]#command: ["/bin/sh", "-c"]
+        args: ["test.py"] #["./my-script.sh"]  # Replace with your actual script
+      restartPolicy: OnFailure  # This ensures that the job will restart if the script fails
+

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-volume
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany  # Change this to ReadWriteMany if you want multiple pods to connect.
+    # Use ReadWriteOnce if only one pod should connect.
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manila-storage  # This should correspond to your StorageClass for Manila
+  csi:  # Replace the cinder spec with csi for Manila
+    driver: manila.csi.openstack.org  # According to your Manila CSI driver
+    volumeHandle: 0d0f5ab0-7432-409f-9246-c07e61930d28  # This ID should be the identifier for the Manila share
+    fsType: ext4  # Specify the filesystem type if needed
+

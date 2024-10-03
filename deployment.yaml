@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      containers:
+      - name: hello-world-container
+        image: ghcr.io/nova-ch/dp:v0.0
+        command: ["/bin/sh", "-c", "echo Hello, World! && tail -f /dev/null"]
+        ports:
+        - containerPort: 80
+          #volumeMounts:
+          #- name: my-volume
+          #mountPath: /data
+          #initContainers:
+          #- name: init-my-volume
+          #image: busybox
+          #command: ["sh", "-c", "echo Initializing data > /data/mydata.txt"]
+          #volumeMounts:
+          #- name: my-volume
+          #mountPath: /data
+          #volumes:
+          #- name: my-volume
+          #persistentVolumeClaim:
+          #claimName: my-volume-pvc
+

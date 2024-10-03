@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mycontainer
+    image: myimage
+    volumeMounts:
+    - mountPath: "/data"
+      name: pvc-storage
+  volumes:
+  - name: pvc-storage
+    persistentVolumeClaim:
+      claimName: openstack-pvc
+
