@@ -38,7 +38,7 @@ def main():
         print(df.head())
         print("DataFrame shape:", df.shape)
 
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         # Handle database connection errors
         error, = e.args
         print("Database connection error:", error.message)
